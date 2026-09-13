@@ -10,7 +10,7 @@ Un oso viaja por diferentes países superando cada nivel para desbloquear el sig
 
 ## Concepto
 
-Prootipo de un juego 2D donde el jugador controla a un oso que debe:
+Prototipo de un juego 2D donde el jugador controla a un oso que debe:
 - Recorrer plataformas
 - Evitar enemigos
 - Recolectar objetos
