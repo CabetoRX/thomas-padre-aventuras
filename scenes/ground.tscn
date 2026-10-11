@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="RectangleShape2D" id="LeftPlatformShape"]
+size = Vector2(747.18, 14)
+
+[sub_resource type="RectangleShape2D" id="BridgeShape"]
+size = Vector2(147.87, 14)
+
+[sub_resource type="RectangleShape2D" id="RightLowPlatformShape"]
+size = Vector2(321, 14)
+
+[sub_resource type="RectangleShape2D" id="RightEndWallShape"]
+size = Vector2(75, 48)
+
+[sub_resource type="RectangleShape2D" id="VerticalBoundaryShape"]
+size = Vector2(24, 720)
+
+[sub_resource type="RectangleShape2D" id="HorizontalBoundaryShape"]
+size = Vector2(1280, 24)
+
+[node name="Ground" type="Node2D"]
+
+[node name="LeftStonePlatform" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftStonePlatform"]
+position = Vector2(373.59, 420.2)
+shape = SubResource("LeftPlatformShape")
+
+[node name="Bridge" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bridge"]
+position = Vector2(819.44, 467.66)
+shape = SubResource("BridgeShape")
+
+[node name="RightLowPlatform" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightLowPlatform"]
+position = Vector2(1119.5, 427)
+shape = SubResource("RightLowPlatformShape")
+
+[node name="RightEndWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightEndWall"]
+position = Vector2(931, 394)
+shape = SubResource("RightEndWallShape")
+
+[node name="WorldBoundaries" type="StaticBody2D" parent="."]
+
+[node name="LeftBoundaryCollision" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(-12, 360)
+shape = SubResource("VerticalBoundaryShape")
+
+[node name="RightBoundaryCollision" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(1292, 360)
+shape = SubResource("VerticalBoundaryShape")
+
+[node name="TopBoundaryCollision" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(640, -12)
+shape = SubResource("HorizontalBoundaryShape")
+
+[node name="BottomBoundaryCollision" type="CollisionShape2D" parent="WorldBoundaries"]
+position = Vector2(640, 732)
+shape = SubResource("HorizontalBoundaryShape")
