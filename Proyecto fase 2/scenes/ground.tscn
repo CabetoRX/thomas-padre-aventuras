@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="RectangleShape2D" id="GroundShape"]
+size = Vector2(2400, 80)
+
+[node name="Ground" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("GroundShape")
+
+[node name="Soil" type="Polygon2D" parent="."]
+color = Color(0.43, 0.29, 0.16, 1)
+polygon = PackedVector2Array(-1200, -40, 1200, -40, 1200, 40, -1200, 40)
+
+[node name="Grass" type="Polygon2D" parent="."]
+color = Color(0.31, 0.68, 0.28, 1)
+polygon = PackedVector2Array(-1200, -40, 1200, -40, 1200, -31, -1200, -31)

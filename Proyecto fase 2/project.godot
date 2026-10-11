@@ -1,0 +1,38 @@
+; Engine configuration file.
+; Godot 4.x compatible
+
+config_version=5
+
+[application]
+
+config/name="prueba 2"
+config/description="Un oso viaja por diferentes países superando cada nivel para desbloquear el siguiente."
+run/main_scene="res://scenes/main.tscn"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.45, 0.72, 0.9, 1)
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[input]
+
+move_left={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":65), Object(InputEventKey,"physical_keycode":4194311)]
+}
+move_right={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":68), Object(InputEventKey,"physical_keycode":4194313)]
+}
+jump={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":32), Object(InputEventKey,"physical_keycode":87)]
+}

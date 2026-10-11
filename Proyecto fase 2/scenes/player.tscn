@@ -10,6 +10,7 @@ height = 48.0
 script = ExtResource("1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
 shape = SubResource("1")
 
 [node name="BodyPolygon" type="Polygon2D" parent="."]
