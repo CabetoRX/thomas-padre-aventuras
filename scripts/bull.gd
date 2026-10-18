@@ -12,7 +12,33 @@ var knockback_timer: float = 0.0
 var facing: float = 1.0
 
 func _ready() -> void:
-	queue_redraw()
+	var frame_paths := DirAccess.get_files_at("res://assets/characters/bull/chase")
+	frame_paths.sort()
+
+	var sprite_frames := SpriteFrames.new()
+	sprite_frames.add_animation("chase")
+	sprite_frames.set_animation_speed("chase", 12.0)
+	sprite_frames.set_animation_loop("chase", true)
+
+	var frame_count := 0
+	for path in frame_paths:
+		if not path.ends_with(".png"):
+			continue
+
+		var texture := load("res://assets/characters/bull/chase/" + path) as Texture2D
+		if texture == null:
+			push_error("Could not load bull animation frame: " + path)
+			return
+		sprite_frames.add_frame("chase", texture)
+		frame_count += 1
+
+	if frame_count == 0:
+		push_error("No bull animation frames found in res://assets/characters/bull/chase.")
+		return
+
+	animated_sprite.sprite_frames = sprite_frames
+	animated_sprite.animation = "chase"
+	animated_sprite.play("chase")
 
 func _physics_process(delta: float) -> void:
 	if player == null or not is_instance_valid(player):
@@ -30,9 +56,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		var direction := signf(player.global_position.x - global_position.x)
 		if direction != 0.0:
-			if facing != direction:
-				facing = direction
-				queue_redraw()
+			facing = direction
 			velocity.x = direction * speed
 
 	animated_sprite.flip_h = facing < 0.0
@@ -42,39 +66,9 @@ func knock_back_from(target_position: Vector2) -> void:
 	facing = signf(global_position.x - target_position.x)
 	if facing == 0.0:
 		facing = 1.0
-	queue_redraw()
 	knockback_timer = knockback_duration
 	velocity.x = facing * knockback_speed
 	global_position.x += facing * 20.0
-
-func _draw() -> void:
-	draw_set_transform(Vector2.ZERO, 0.0, Vector2(facing, 1.0))
-	draw_colored_polygon(
-		PackedVector2Array([
-			Vector2(-25, -23), Vector2(-14, -35), Vector2(6, -34),
-			Vector2(19, -26), Vector2(25, -16), Vector2(12, -8),
-			Vector2(-20, -9)
-		]),
-		Color(0.55, 0.19, 0.1)
-	)
-	draw_colored_polygon(
-		PackedVector2Array([
-			Vector2(10, -32), Vector2(20, -38), Vector2(27, -29),
-			Vector2(24, -16), Vector2(13, -14), Vector2(5, -22)
-		]),
-		Color(0.63, 0.24, 0.12)
-	)
-	draw_colored_polygon(
-		PackedVector2Array([Vector2(10, -36), Vector2(4, -44), Vector2(17, -37)]),
-		Color(0.92, 0.78, 0.48)
-	)
-	draw_colored_polygon(
-		PackedVector2Array([Vector2(21, -35), Vector2(31, -40), Vector2(25, -29)]),
-		Color(0.92, 0.78, 0.48)
-	)
-	draw_circle(Vector2(22, -29), 1.5, Color(0.08, 0.05, 0.04))
-	for leg_x in [-16.0, -3.0, 10.0]:
-		draw_line(Vector2(leg_x, -12), Vector2(leg_x, -1), Color(0.24, 0.1, 0.08), 4.0)
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player") or not body.has_method("take_damage"):

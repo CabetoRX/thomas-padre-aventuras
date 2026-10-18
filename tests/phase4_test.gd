@@ -15,6 +15,9 @@ func _run_checks() -> void:
 	var lives_label := main_instance.get_node("Ground/CanvasLayer/LivesLabel")
 	assert(player.lives == 3, "The player should start with three lives.")
 	assert(lives_label.text == "Vidas: 3 / 3", "The level HUD should show the initial lives.")
+	assert(bull.animated_sprite.is_playing(), "The bull animation should be playing.")
+	assert(bull.animated_sprite.sprite_frames.get_frame_count("chase") == 36, "All bull animation frames should load.")
+	assert(bull.animated_sprite.sprite_frames.get_frame_texture("chase", 0).get_image().detect_alpha(), "Bull frames should have transparent backgrounds.")
 	assert(bull.global_position.x > 120.0, "The bull should chase the stationary player.")
 	assert(player.is_on_floor(), "The player should land on the level floor.")
 

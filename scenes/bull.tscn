@@ -19,6 +19,8 @@ position = Vector2(0, -8)
 shape = SubResource("BullBodyShape")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -19)
+scale = Vector2(0.25, 0.25)
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0
