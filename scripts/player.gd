@@ -1,10 +1,13 @@
 extends CharacterBody2D
 
 ## Personaje jugable: Oso Thomas
-## Fase 3: Movimiento horizontal, salto y gravedad
+## Movimiento, salto, vidas y reaparicion desde checkpoint.
 
 ## Velocidad de movimiento horizontal
 @export var speed: float = 200.0
+
+@export var max_lives: int = 3
+@export var invulnerability_duration: float = 2.0
 
 ## Velocidad de salto
 @export var jump_velocity: float = -400.0
@@ -12,9 +15,19 @@ extends CharacterBody2D
 ## Gravedad del juego (pixels por segundo al cuadrado)
 @export var gravity: float = 800.0
 
+signal lives_changed(current_lives: int, maximum_lives: int)
+
 @onready var bear_sprite: AnimatedSprite2D = $BearAnimatedSprite
 
+var lives: int
+var checkpoint_position: Vector2
+var invulnerability_timer: float = 0.0
+
 func _ready() -> void:
+	add_to_group("player")
+	lives = max_lives
+	checkpoint_position = global_position
+
 	var frame_paths := DirAccess.get_files_at("res://assets/characters/bear/run")
 	frame_paths.sort()
 
@@ -43,7 +56,11 @@ func _ready() -> void:
 	bear_sprite.animation = "run"
 	bear_sprite.stop()
 
+	lives_changed.emit(lives, max_lives)
+
 func _physics_process(delta: float) -> void:
+	_update_invulnerability(delta)
+
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	elif Input.is_action_just_pressed("jump"):
@@ -63,3 +80,32 @@ func _physics_process(delta: float) -> void:
 		bear_sprite.play("run")
 
 	move_and_slide()
+
+func take_damage(_source_position: Vector2) -> bool:
+	if invulnerability_timer > 0.0:
+		return false
+
+	lives -= 1
+	lives_changed.emit(lives, max_lives)
+	invulnerability_timer = invulnerability_duration
+
+	if lives <= 0:
+		lives = max_lives
+		global_position = checkpoint_position
+		velocity = Vector2.ZERO
+		lives_changed.emit(lives, max_lives)
+
+	return true
+
+func set_checkpoint(position: Vector2) -> void:
+	checkpoint_position = position
+
+func _update_invulnerability(delta: float) -> void:
+	if invulnerability_timer <= 0.0:
+		return
+
+	invulnerability_timer = maxf(invulnerability_timer - delta, 0.0)
+	if invulnerability_timer == 0.0:
+		bear_sprite.modulate = Color.WHITE
+	else:
+		bear_sprite.modulate.a = 0.35 if fmod(invulnerability_timer, 0.2) < 0.1 else 1.0

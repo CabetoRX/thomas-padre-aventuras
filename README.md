@@ -1,4 +1,4 @@
-# Proyecto fase 3
+# Thomas y Padre Aventuras
 
 Un oso viaja por diferentes países superando cada nivel para desbloquear el siguiente.
 
@@ -18,29 +18,27 @@ Prototipo de un juego 2D donde el jugador controla a un oso que debe:
 
 Cada país es un nivel independiente, bloqueado hasta completar el anterior.
 
-## Estado Actual
+## Estado actual
 
-**Fase 3** — Movimiento horizontal y salto del personaje con gravedad y colisiones sobre un suelo estático.
+**Fase 4** — Nivel de España con movimiento y salto, cámara, toro perseguidor, tres vidas, daño con invulnerabilidad temporal y reaparición desde el checkpoint inicial.
 
 ## Estructura de Carpetas
 
 ```text
 thomas-padre-aventuras/
-├── Proyecto fase 3/
-│   ├── assets/
-│   ├── audio/
-│   ├── levels/
-│   ├── scenes/
-│   │   ├── ground.tscn
-│   │   ├── main.tscn
-│   │   └── player.tscn
-│   ├── scripts/
-│   │   ├── main.gd
-│   │   └── player.gd
-│   ├── ui/
-│   ├── project.godot
-│   └── README.md
-└── .gitignore
+├── assets/
+├── scenes/
+│   ├── bull.tscn
+│   ├── ground.tscn
+│   ├── main.tscn
+│   └── player.tscn
+├── scripts/
+│   ├── bull.gd
+│   ├── main.gd
+│   ├── player.gd
+│   └── spain_level.gd
+├── project.godot
+└── README.md
 ```
 
 ## Cómo Abrirlo y Probarlo
@@ -55,7 +53,6 @@ thomas-padre-aventuras/
    ```bash
    git clone https://github.com/CabetoRX/thomas-padre-aventuras.git
    cd thomas-padre-aventuras
-   cd "Proyecto fase 3"
    ```
 
 2. Abrir el proyecto en Godot 4.x:
@@ -68,20 +65,24 @@ thomas-padre-aventuras/
    - Presiona `F5` o haz clic en el botón "Reproducir"
    - Usa `A`/`D` o las flechas izquierda/derecha para moverte
    - Usa `Espacio` o `W` para saltar (solo al tocar el suelo)
-   - El fondo de España está en `assets/backgrounds/fondo-espana.png`
-   - El osito reproduce su animación de carrera al moverse; los fotogramas transparentes están en `assets/characters/bear/run/`
-   - Las plataformas y el muro final usan cuerpos estáticos separados con colisiones invisibles; puedes saltar sobre el muro derecho
+   - El toro perseguidor es un placeholder dibujado por código, ya que no hay sprites de toro en los assets.
+   - El contacto con el toro resta una vida y activa dos segundos de invulnerabilidad. Al agotar las tres vidas, el oso reaparece en su checkpoint actual con las vidas restauradas.
 
-## Desarrollo
+### Pruebas de juego
 
-Este proyecto se desarrolla en fases:
+Ejecuta las comprobaciones automatizadas de movimiento, salto, persecución, daño, invulnerabilidad, HUD y checkpoint:
 
-- **Fase 1**: Estructura y configuración ✓
-- **Fase 2**: Movimiento del personaje y suelo con colisión ✓
-- **Fase 3**: Movimiento horizontal y salto con gravedad ✓
-- **Fase 3**: Nivel España y cámara
-- **Fase 4**: Enemigos
+```bash
+godot --headless --path . --quit-after 900 --script res://tests/phase4_test.gd
+```
+
+## Fases de desarrollo
+
+- **Fase 1**: Base del proyecto ✓
+- **Fase 2**: Movimiento, salto, gravedad y colisiones ✓
+- **Fase 3**: Nivel de España, animación del oso y cámara ✓
+- **Fase 4**: Toro perseguidor, vidas, daño, invulnerabilidad y checkpoint inicial ✓
 - **Fase 5**: Objetos coleccionables
-- **Fase 6**: Checkpoints
+- **Fase 6**: Checkpoints adicionales
 - **Fase 7**: Meta y condición de victoria
 - **Fase 8**: Sistema de niveles bloqueados
